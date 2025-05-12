@@ -1,7 +1,7 @@
 import { Db_Model } from "../db";
 
 const tableName = 'orders';
-const Order_Model = `CREATE TABLE ${tableName} (
+const orderModel = `CREATE TABLE ${tableName} (
 id VARCHAR(36) DEFAULT (UUID()) NOT NULL UNIQUE PRIMARY KEY,
 customer_table_id VARCHAR(255) NOT NULL,
 member_id VARCHAR(255) NOT NULL,
@@ -9,10 +9,10 @@ enter_date_time DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 exit_date_time DATETIME NULL
 )`;
 
-export default { tableName, model: Order_Model } as Db_Model;
+export default { tableName, model: orderModel } as Db_Model;
 
 interface Order_Model {
-  id: number;
+  id: string;
   customer_table_table_id: string;
   member_id: string;
   enter_date_time: string;

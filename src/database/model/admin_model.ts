@@ -12,7 +12,7 @@ phone_number VARCHAR(12) NOT NULL
 
 export default { tableName, model: adminModel } as Db_Model;
 
-interface admin_Model {
+interface Admin_Model {
   id: number;
   role: string; // may change to enum
   username: string;
