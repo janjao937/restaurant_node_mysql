@@ -8,7 +8,7 @@ seat int(11) NOT NULL
 
 export default { tableName, model: customerTableModel } as Db_Model;
 
-interface CustomerTable {
+interface CustomerTable_Model {
   id: number;
   seat: number;
 }
