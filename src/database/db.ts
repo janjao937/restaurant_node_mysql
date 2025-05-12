@@ -18,14 +18,16 @@ dotenv.config();
 //     connectionLimit: 10,
 //     queueLimit: 0
 // });
+
+// SELECT COUNT(*) FROM INFORMATION_SCHEMA.PROCESSLIST; check query connection
 export const pool = mysql.createPool({
-    host:process.env.DB_HOST,
-    user:process.env.DB_USER,
-    password:process.env.DB_PASSWORD,
-    database:process.env.DB_NAME,
-    waitForConnections: true,
-    connectionLimit:10,
-    queueLimit: 0
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    waitForConnections: true, //change to env
+    connectionLimit: 15,  //10-50 medieum user 100 per sec   //change to env
+    queueLimit: 50   //change to env
 });
 
 
@@ -150,9 +152,20 @@ export async function findOrCreateTable() {
   }
 }
 
-async function mockupInsertData(tableName: string, model: string) {
+export async function mockupInsertData() {
   try {
+    const insert_customer_table = 'INSERT INTO customer_table (seat) VALUES (?)';
+    const insert_member = 'INSERT INTO member (first_name, last_name, phone_number, token, point) VALUES (?, ?, ?, ?, ?)';
+    const insert_item = 'INSERT INTO item (name, price, category, pic_path, count, info) VALUES (?, ?, ?, ?, ?, ?)';
+    const insert_orderList = 'INSERT INTO member (table_id, item_id, count, is_success) VALUES (?, ?, ?, ?)';
 
+    // await pool.execute(insert_customer_table, ["1"]);
+    // await pool.execute(insert_member, ["john", "doe", "1234567890", "jwt_token", 2]);
+    // await pool.execute(insert_item, ["ข้าวกระเพรา", 100, "จานเดียว", "https://www.thammculture.com/wp-content/uploads/2024/01/Untitled-612.jpg", 4, "หมู/ไก่/กุ้ง"]);
+    // await pool.execute(insert_orderList, [""]);
+   
+
+    console.log('Data inserted successfully');
   }
   catch (error) {
     console.error('❌ Insert Database failed:', error);
@@ -181,21 +194,39 @@ async function mockupInsertData(tableName: string, model: string) {
 //     }
 // }
 
-
+//for update table
 export async function MigrateTable() {
-    //for update table
-    try{
+  try{
+    //version db = 1
+    //Alter table 
+  }catch(error) {
 
-    }catch(error) {
-
-    }
+  }
 }
+
+
 
 
 export default pool;
-
-
 export interface Db_Model {
-    tableName: string;
-    model: string;
+  tableName: string;
+  model: string;
 }
+
+
+//db.query ใช้สำหรับ query ทั่วไป เช่น SELECT, INSERT, UPDATE, DELETE
+//db.execute
+// ใช้สำหรับ query ที่ต้องใช้ prepared statements.
+
+// ป้องกัน SQL injection เพราะใช้ parameter binding.
+
+// ใช้ query สำหรับคำสั่งทั่วไปที่ไม่ต้องใช้ parameters.
+
+// ใช้ execute สำหรับ prepared statements เพื่อความปลอดภัยและประสิทธิภาพ.
+
+// await db.query(`INSERT INTO todos (title,completed,user_id) VALUES (? ,? ,? )`,[title,completed,userId]);
+// res.status(200).json({message:"CREATE SUCCESS"});
+
+// const sql = 'INSERT INTO users (name, email) VALUES (?, ?)';
+// await db.execute(sql, [name, email]);
+// console.log('Data inserted successfully');
